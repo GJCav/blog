@@ -1,4 +1,6 @@
 nav:
 - Welcome: README.md
-- ...
+- 建站: build-a-website
+- Win 奇技淫巧: win-tricks
 - Tag Index: tag-index.md
+- LICENSE.md

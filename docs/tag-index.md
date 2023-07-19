@@ -1,6 +1,8 @@
-# Tags
+---
+disable_comments: true
+---
 
-| An example about using tags: [tag-test](./mk-test/tag-test.md)
+# Tags
 
 Following is a list of relevant tags:
 
