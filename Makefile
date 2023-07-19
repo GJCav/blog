@@ -2,6 +2,7 @@
 
 TMP_CONFIG=/tmp/mkdocs.yml
 CUSTOM_DIR=$(shell realpath overrides)
+G_PROPERTY=G-CN7E4ZDLFQ
 
 all:
 	@echo "Usage: "
