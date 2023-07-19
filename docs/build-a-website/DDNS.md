@@ -80,7 +80,7 @@ Finally, setup a crontab or systemd service to run the script periodically.
 Here is my crontab example:
 
 ``` cron
-*/5 * * * * /path/to/ddns4.py >> /var/log/cfddns.log 2>&1
+*/5 * * * * /path/to/cloudflare_ddns.py >> /var/log/cfddns.log 2>&1
 ```
 
 If everything works fine, your server now enjoys DDNS.
