@@ -1,0 +1,104 @@
+{% extends "main.html" %}
+
+{% block header %}
+
+<style>
+  .welcome-pad-top {
+    height: 100%;
+  }
+
+  .welcome-pad-bottom {
+    height: 10rem;
+  }
+
+  @media screen and (max-width: 960px) {
+    .welcome-pad-top {
+      height: 7rem;
+    }
+
+    .welcome-pad-bottom {
+      height: 0rem;
+    }
+  }
+</style>
+
+<section 
+  class="mdx-container"
+  style="
+    position: fixed;
+    width: 100vw;
+    z-index: -100;
+  "
+>
+  <div style="max-width: 100%" class="md-grid md-typeset">
+    <div
+      style="
+        background: url(assets/images/illustration.jpg)  center center / cover no-repeat;
+        height: 100vh;
+      "
+    >
+
+      <!-- Hero content -->
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          color: white;
+          padding-left: 2em;
+          height: 100%;
+        "
+      >
+        <div class="welcome-pad-top"></div>
+
+        <!-- welcome message -->
+        <div 
+          style="
+            text-shadow: 0 0 0.2rem #211d2dcc;
+            max-width: 35rem;
+          "
+        >
+          <h1 style="
+            color: white;
+            font-weight: 900;
+            font-size: 2.5rem;
+            margin-bottom: 0;
+          ">
+            Welcome, my friend !
+          </h1>
+
+          <h3 style="
+            color: white;
+            font-size: 1.3rem;
+            margin-top: 1rem;
+          ">
+            Good morning, and in case I don’t see you, good afternoon, good evening, and good night.
+          </h3>
+        </div>
+
+        <div class="welcome-pad-bottom"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block hero %}
+<style>
+.md-main {
+  background-color: var(--md-default-bg-color);
+}
+
+</style>
+<div style="margin-top: 100vh;" id="padding-illustration"></div>
+{% include "partials/header.html" %}
+{% endblock %}
+
+{% block content %}
+{{ super() }}
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

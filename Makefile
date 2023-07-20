@@ -13,7 +13,7 @@ build: blend-yml
 	mkdocs build -f $(TMP_CONFIG)
 
 serve: blend-yml
-	mkdocs serve -f $(TMP_CONFIG)
+	mkdocs serve -f $(TMP_CONFIG) --watch-theme
 
 gh-deploy: blend-yml
 	mkdocs gh-deploy --force -f $(TMP_CONFIG)

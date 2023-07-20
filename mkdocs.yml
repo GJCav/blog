@@ -3,7 +3,7 @@
 #                                                    #
 ######################################################
 
-site_name: JCav's Blog
+site_name: Blog
 site_url: https://gjcav.github.io/blog/
 repo_url: https://github.com/GJCav/blog/
 copyright: Copyright &copy; 2023 GJCav
@@ -20,7 +20,7 @@ theme:
   name: material
   custom_dir: !ENV [CUSTOM_DIR, "overrides"]
   features:
-    - navigation.instant
+    # - navigation.instant
     - navigation.tracking
     - content.code.copy
     - content.code.annotate 
