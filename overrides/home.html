@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 
-{% block header %}
+{% block extrahead %}
+{{ super() }}
 
 <style>
   .welcome-pad-top {
@@ -11,22 +12,43 @@
     height: 10rem;
   }
 
+  .welcome-text {
+    color: white !important;
+    text-shadow: 0 0 0.2rem #211d2dcc;
+  }
+
+  .md-header {
+    background-color: transparent;
+    
+  }
+
   @media screen and (max-width: 960px) {
     .welcome-pad-top {
-      height: 7rem;
+      height: 20vh;
     }
 
     .welcome-pad-bottom {
       height: 0rem;
     }
+
+    .hide-on-mobile {
+      display: none;
+    }
   }
 </style>
+
+{% endblock %}
+
+{% block header %}
+{% include "partials/header.html" %}
+
 
 <section 
   class="mdx-container"
   style="
     position: fixed;
     width: 100vw;
+    top: 0;
     z-index: -100;
   "
 >
@@ -34,7 +56,7 @@
     <div
       style="
         background: url(assets/images/illustration.jpg)  center center / cover no-repeat;
-        height: 100vh;
+        height: 110vh;
       "
     >
 
@@ -45,8 +67,11 @@
           flex-direction: column;
           align-items: start;
           color: white;
-          padding-left: 2em;
           height: 100%;
+          max-width: 63rem;
+          margin-left: auto;
+          margin-right: auto;
+          padding: 0 1rem;
         "
       >
         <div class="welcome-pad-top"></div>
@@ -54,24 +79,27 @@
         <!-- welcome message -->
         <div 
           style="
-            text-shadow: 0 0 0.2rem #211d2dcc;
             max-width: 35rem;
           "
         >
-          <h1 style="
-            color: white;
-            font-weight: 900;
-            font-size: 2.5rem;
-            margin-bottom: 0;
-          ">
-            Welcome, my friend !
+          <h1 
+            style="
+              font-weight: 900;
+              font-size: 2.5rem;
+              margin-bottom: 0;
+            "
+            class="welcome-text"
+          >
+            Welcome, <span class="hide-on-mobile">my friend !</span>
           </h1>
 
-          <h3 style="
-            color: white;
-            font-size: 1.3rem;
-            margin-top: 1rem;
-          ">
+          <h3 
+            style="
+              font-size: 1.3rem;
+              margin-top: 1rem;
+            "
+            class="welcome-text"
+          >
             Good morning, and in case I don’t see you, good afternoon, good evening, and good night.
           </h3>
         </div>
@@ -89,16 +117,60 @@
 .md-main {
   background-color: var(--md-default-bg-color);
 }
-
 </style>
-<div style="margin-top: 100vh;" id="padding-illustration"></div>
-{% include "partials/header.html" %}
+
+<div style="
+  height: 110vh;
+  background-image: linear-gradient(
+                      transparent 0%,
+                      transparent 85%,
+                      var(--md-default-bg-color) 100%
+                    );
+">
+
+</div>
 {% endblock %}
 
-{% block content %}
-{{ super() }}
-{% endblock %}
+{% block scripts %}
+  {{ super() }}}
 
-{% block footer %}
-{{ super() }}
+  <script src="https://colorjs.io/dist/color.global.min.js"></script>
+  <script>
+    anime({
+      targets: ".welcome-text",
+      translateY: ["1rem", "0rem"],
+      opacity: [0, 1],
+      duration: 2000,
+      delay: anime.stagger(1000),
+      easing: 'easeOutCubic'
+    });
+
+    const header_dom = document.querySelector(".md-header");
+    const main_dom = document.querySelector(".md-main");
+
+    const update_hd_clr = function () {
+      const style = getComputedStyle(document.getElementsByTagName("body")[0]);
+      const hd_fg_clr = new Color(style.getPropertyValue('--md-primary-fg-color'));
+
+      const thd = header_dom.clientHeight * 1.5;
+      let x = main_dom.getBoundingClientRect().top;
+
+      x -= thd;
+      x = Math.max(x, 0);
+      x = Math.min(x, thd);
+      const opacity = 1 - x / thd;
+      hd_fg_clr.alpha = opacity;
+      header_dom.style = `
+        background-color: ${hd_fg_clr};
+      `;
+      
+      
+    };
+    update_hd_clr();
+
+    window.addEventListener("scroll", function() {
+      update_hd_clr();
+    });
+
+  </script>
 {% endblock %}
