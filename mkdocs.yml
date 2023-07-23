@@ -50,7 +50,8 @@ plugins:
     lang:  [ en, ja ]
 - mkdocs-simple-hooks:
     hooks:
-      on_page_context: "hooks.statistics:on_page_context"
+      on_page_context: "hooks.on_page_context:on_page_context"
+      on_page_markdown: "hooks.on_page_markdown:on_page_markdown"
 
 markdown_extensions:
   - pymdownx.arithmatex:

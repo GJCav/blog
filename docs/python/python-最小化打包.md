@@ -3,6 +3,8 @@ tags:
     - Python
     - pack
     - program_distribution
+create_time: 2023-07-19
+update_time: 2023-07-23
 ---
 
 # 最小化打包 非pyinstaller

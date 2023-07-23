@@ -1,8 +1,10 @@
 ---
 tags:
-    - Python
-    - conda
-    - virtualenv
+  - Python
+  - conda
+  - virtualenv
+create_time: 2023-07-19
+update_time: 2023-07-23
 ---
 
 # conda 推荐配置

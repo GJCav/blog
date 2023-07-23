@@ -30,15 +30,9 @@ def attach_time_info(
 
     if page.meta and page.meta.get("update_time", None):
         context["update_time"] = page.meta.get("update_time", None)
-    else:
-        timestamp = os.path.getmtime(page.file.abs_src_path)
-        context["update_time"] = time.strftime("%Y-%m-%d", time.localtime(timestamp))
     
     if page.meta and page.meta.get("create_time", None):
         context["create_time"] = page.meta.get("create_time", None)
-    else:
-        timestamp = os.path.getctime(page.file.abs_src_path)
-        context["create_time"] = time.strftime("%Y-%m-%d", time.localtime(timestamp))
 
 
 def attach_statistics(

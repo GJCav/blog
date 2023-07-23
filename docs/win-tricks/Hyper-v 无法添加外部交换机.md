@@ -2,6 +2,8 @@
 tags:
     - Hyper-V
     - Bug
+create_time: 2023-07-19
+update_time: 2023-07-23
 ---
 
 # Hyper-v 添加外部交换机问题
