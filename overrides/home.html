@@ -9,7 +9,7 @@
   }
 
   .welcome-pad-bottom {
-    height: 10rem;
+    height: 20rem;
   }
 
   .welcome-text {
@@ -98,9 +98,12 @@
               font-size: 1.3rem;
               margin-top: 1rem;
             "
-            class="welcome-text"
           >
-            Good morning, and in case I don’t see you, good afternoon, good evening, and good night.
+            <span class="welcome-text" style="display: inline-block">Good morning, </span>
+            <span class="welcome-text" style="display: inline-block">and in case I don’t see you, </span>
+            <span class="welcome-text" style="display: inline-block">good afternoon, </span>
+            <span class="welcome-text" style="display: inline-block">good evening, </span>
+            <span class="welcome-text" style="display: inline-block">and good night. </span>
           </h3>
         </div>
 
@@ -131,6 +134,7 @@
 </div>
 {% endblock %}
 
+
 {% block scripts %}
   {{ super() }}}
 
@@ -141,7 +145,7 @@
       translateY: ["1rem", "0rem"],
       opacity: [0, 1],
       duration: 2000,
-      delay: anime.stagger(1000),
+      delay: anime.stagger(600),
       easing: 'easeOutCubic'
     });
 
