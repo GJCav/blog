@@ -353,3 +353,12 @@
 
   </script>
 {% endblock %}
+
+
+{% block content %}
+  <h1>Recent Articles</h1>
+
+  {% for post in recent_articles %}
+    {% include "article_excerpt.html" %}
+  {% endfor %}
+{% endblock %}

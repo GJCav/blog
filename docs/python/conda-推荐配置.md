@@ -15,6 +15,8 @@ update_time: 2023-07-23
 
 anaconda 自带了太多的库，miniconda 相比起来简洁很多。
 
+<!-- more -->
+
 ## Windows 下安装
 
 从官网下载安装包，安装，在中间步骤选择 `register as system python` 啥的。

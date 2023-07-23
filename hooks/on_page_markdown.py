@@ -9,6 +9,8 @@ from mkdocs.config import base as cfg_base, config_options as C
 
 log = logging.getLogger("mkdocs.plugins")
 
+from . import g
+
 def on_page_markdown(
         markdown: str, 
         page: Page,
@@ -26,7 +28,6 @@ class PageMeta(cfg_base.Config):
 
 
 def check_page_meta(page: Page):
-
     if not page.meta:
         raise PluginError(f"Page {page.file.src_path} has no meta data")
 

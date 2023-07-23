@@ -6,6 +6,8 @@ import os
 import os.path
 import time
 
+from . import g
+
 def on_page_context(
         context: dict[str, Any], 
         page: Page, 
@@ -15,10 +17,21 @@ def on_page_context(
 
     if page.file.src_path == "README.md":
         attach_statistics(context, page, config, nav)
+        attach_articles(context, page, config, nav)
 
     attach_time_info(context, page, config, nav)
 
+
     return context
+
+
+def attach_articles(
+        context: dict[str, Any],
+        page: Page,
+        config,
+        nav: Navigation
+    ):
+    context["recent_articles"] = g.recent_articles
 
 
 def attach_time_info(
