@@ -48,6 +48,9 @@ plugins:
     tags_file: tag-index.md
 - search:
     lang:  [ en, ja ]
+- mkdocs-simple-hooks:
+    hooks:
+      on_page_context: "hooks.statistics:on_page_context"
 
 markdown_extensions:
   - pymdownx.arithmatex:
