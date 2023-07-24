@@ -83,7 +83,7 @@ def generate_excerpt(
         separator = "<!-- more -->"
         markdown = page.markdown or "##"
         if separator not in markdown: # type: ignore
-            log.warning("Separator not found: " + file.src_path)
+            log.warning("Excerpt separator not found: " + file.src_path)
             markdown = re.sub(
                 r"^(##.*)$", 
                 f"\n\n{separator}\n\n\\1", 
