@@ -25,6 +25,8 @@ To enable DDNS, there are 2 methods.
 
 I recommend the second method and provide a simple python script to implement DDNS update.
 
+<!-- more -->
+
 
 ## Cloudflare DDNS
 

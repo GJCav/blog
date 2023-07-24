@@ -34,3 +34,5 @@ start /affinity 4000 BaiduNetdisk.exe
 ```
 
 `/affinity` 后面的是一个 16 进制数字，转换为二进制后每一位和一个 CPU 对应，值为 1 表示这个程序可以在这个 CPU 上运行。
+
+<!-- more -->

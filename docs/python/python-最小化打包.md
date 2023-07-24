@@ -9,6 +9,12 @@ update_time: 2023-07-23
 
 # 最小化打包 非pyinstaller
 
+使用 Embedded Python 打包应用程序，揭示程序打包的内部机制，具有更高的可玩性和定制性。
+
+相比 `pyinstaller` 等自动打包方案，手动打包更加自由，不过也稍稍麻烦一些。
+
+<!-- more -->
+
 ## 为什么不使用 pyinstaller?
 
 想用就用 :laughing:。

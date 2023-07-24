@@ -7,6 +7,10 @@ update_time: 2023-07-23
 
 # pytest-cov 代码覆盖率测试
 
+pytest-cov 快速实例。
+
+<!-- more -->
+
 官方文档：
 
 [Welcome to pytest-cov's documentation! - pytest-cov 3.0.0 documentation](https://pytest-cov.readthedocs.io/en/latest/index.html)

@@ -47,6 +47,9 @@ def save_recent_articles(
         with open(file.abs_src_path, "r", encoding="utf-8") as f:
             markdown, meta = get_data(f.read())
 
+            if meta.get("disable_excerpt"):
+                continue
+
             post["meta"] = dict(meta)
 
             if "date" in meta:

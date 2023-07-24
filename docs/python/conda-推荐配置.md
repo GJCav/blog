@@ -9,13 +9,20 @@ update_time: 2023-07-23
 
 # conda 推荐配置
 
+自用 miniconda 配置。特点：
+
+* 使用清华开源镜像站
+* 将虚拟环境保存在其他硬盘
+* 避免使用默认的 base 环境
+
+
+<!-- more -->
+
 ## anaconda or miniconda ?
 
 本配置同时适用于 anaconda 和 miniconda，但我推荐使用 miniconda。
 
 anaconda 自带了太多的库，miniconda 相比起来简洁很多。
-
-<!-- more -->
 
 ## Windows 下安装
 

@@ -8,9 +8,13 @@ update_time: 2023-07-23
 
 # win-计划任务
 
+Win 系统自带计划任务功能，但这个功能使用较少，这里记录一下一些折腾经历。
+
 > 类比 linux 中的 cron
 
 > 参考了 https://zhuanlan.zhihu.com/p/20628937 的教程
+
+<!-- more -->
 
 
 !!! danger "警告"
