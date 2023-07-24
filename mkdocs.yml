@@ -57,6 +57,11 @@ plugins:
       on_page_markdown: "hooks.on_page_markdown:on_page_markdown"
 
 markdown_extensions:
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
   - pymdownx.arithmatex:
       generic: true
   - admonition

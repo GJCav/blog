@@ -10,6 +10,7 @@ import logging
 import os
 import os.path
 import time
+import datetime
 
 log = logging.getLogger("mkdocs.plugins")
 
@@ -61,8 +62,7 @@ def save_recent_articles(
             else:
                 # read last modified time from file
                 timestamp = os.path.getmtime(file.abs_src_path)
-                date_str = time.strftime("%Y-%m-%d", time.localtime(timestamp))
-                post["meta"]["date"] = date_str
+                post["meta"]["date"] = datetime.date.fromtimestamp(timestamp)
             post["meta"]["date_format"] = post["meta"]["date"]
         
         g.articles.append(post)

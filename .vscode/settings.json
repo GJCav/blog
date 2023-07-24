@@ -5,6 +5,7 @@
         "miniconda",
         "mkdocs",
         "venv",
-        "virtualenv"
+        "virtualenv",
+        "waydroid"
     ]
 }
