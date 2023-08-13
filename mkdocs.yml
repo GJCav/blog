@@ -48,22 +48,9 @@ plugins:
     tags_file: tag-index.md
 - search:
     lang:  [ en, ja ]
-- mkdocs-simple-hooks:
-    hooks:
-      on_config: "hooks.on_config:on_config"
-      on_nav: "hooks.on_nav:on_nav"
-      on_env: "hooks.on_env:on_env"
-      on_page_context: "hooks.on_page_context:on_page_context"
 - statistics
 - jcav_meta
-# - HelloworldPlugin:
-#     definition_file: configs/test.ini  # relative to mkdocs.yml
-#     validation:
-#       enabled: !ENV [CI, false]
-#       verbose: true
-#       skip_checks:
-#         - foo
-#         - baz
+- excerpt
 
 markdown_extensions:
   - pymdownx.critic
