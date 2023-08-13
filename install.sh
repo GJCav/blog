@@ -8,3 +8,7 @@ pip3 install -e .
 echo install other dependences
 cd ..
 pip3 install -r requirements.txt
+
+echo install plugins
+cd plugin
+pip3 install -e .
