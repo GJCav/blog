@@ -1,3 +1,4 @@
 mkdocs-awesome-pages-plugin
 mkdocs-simple-hooks
 lxml
+jieba

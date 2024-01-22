@@ -47,7 +47,8 @@ plugins:
 - tags:
     tags_file: tag-index.md
 - search:
-    lang:  [ en, ja ]
+    lang:  [ en, zh ]
+    separator: '[\s\u200b\-]'
 - statistics
 - jcav_meta
 - excerpt
