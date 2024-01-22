@@ -2,7 +2,7 @@
 
 echo install mkdocs-material
 cd mkdocs-material
-git checkout 9.2.0b0
+git checkout 9.5.4
 pip3 install -e .
 
 echo install other dependences
