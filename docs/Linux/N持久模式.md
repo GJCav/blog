@@ -1,8 +1,7 @@
 ---
 tags:
     - Linux
-    - Bash
-    - Proxy
+    - Nvidia
 create_time: 2024-01-22
 update_time: 2024-01-22
 ---
