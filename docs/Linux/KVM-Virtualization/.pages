@@ -1,0 +1,5 @@
+nav:
+- qemu-kvm-ecosystem.md
+- cli-management.md
+- remote-management.md
+- ...
