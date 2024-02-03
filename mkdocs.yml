@@ -52,6 +52,7 @@ plugins:
 - statistics
 - jcav_meta
 - excerpt
+- glightbox
 
 markdown_extensions:
   - pymdownx.critic
@@ -94,4 +95,4 @@ extra_javascript:
 
 extra_css:
   - css/heimu.css
-
+  - css/img.css
