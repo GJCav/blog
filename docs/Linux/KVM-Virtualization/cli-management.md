@@ -4,7 +4,7 @@ tags:
     - KVM
     - QEMU
 create_time: 2024-02-03
-update_time: 2024-02-03
+update_time: 2024-02-05
 ---
 
 # 命令行管理虚拟机
@@ -127,9 +127,10 @@ virsh help domain
 ``` bash
 sudo virsh start <domain>
 sudo virsh shutdown <domain>   # gracefully shutdown the domain
+sudo virsh destroy <domain>    # force off the domain
 
-sudo virsh reboot <domain>     # run a reboot command in the domain
-sudo virsh reset <domain>      # shutdown the domain as if by power button
+sudo virsh reboot <domain>     # gracefully reboot
+sudo virsh reset <domain>      # force reboot the domain as if by power button
 
 sudo virsh suspend <domain>
 sudo virsh resume <domain>
@@ -193,6 +194,7 @@ sudo virt-install \
     * `S`：指 serial，即串口通信
     * `0`：第一个 tty
     * 必须配置该选项，才能通过 `virsh console` 连接上该虚拟机
+    * 有关 Serial 设备和 Console 设备的更多信息，可参考 [Console, Serial, Parallel 讲解](hardware-details.md#console-serial-parallel)
 
 运行后会自动进入 `virsh console` 连接到虚拟机，按照输出提示完成安装。
 

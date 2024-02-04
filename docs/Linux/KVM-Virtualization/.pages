@@ -1,5 +1,6 @@
 nav:
 - qemu-kvm-ecosystem.md
+- hardware-details.md
 - cli-management.md
 - remote-management.md
 - ...
