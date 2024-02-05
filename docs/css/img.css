@@ -2,7 +2,14 @@
 	display: block;
 	margin: 0 auto;
 	max-width: 80%;
-	max-height: 20rem;
+}
+
+@media screen and (max-width: 60em) {
+	.md-typeset img {
+		display: block;
+		margin: 0 auto;
+		max-width: 100%;
+	}
 }
 
 .img-w100 {
