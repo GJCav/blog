@@ -5,7 +5,7 @@ tags:
     - awesome-tool
 
 create_time: 2024-02-03
-update_time: 2024-02-03
+update_time: 2024-03-08
 ---
 
 
@@ -16,10 +16,10 @@ update_time: 2024-02-03
 
 *   SFTP 协议：
     ```powershell
-    ./rclone.exe mount `
-    	":sftp,ssh=ssh username@hostname,disable_hashcheck=true,shell_type=unix:/path/todir/" `
-    	G: `
-    	--vfs-cache-mode full `
+    .\rclone.exe mount ^
+    	":sftp,ssh=ssh username@hostname,disable_hashcheck=true,shell_type=unix:/path/todir/" ^
+    	G: ^
+    	--vfs-cache-mode full ^
     	--volname "a remote driver"
     ```
 
@@ -310,9 +310,9 @@ shell_type = unix
 也就是说，直接运行下面的指令就可挂载远程文件：
 
 ``` pwsh
-./rclone.exe mount `
-	":sftp,ssh=ssh lab-server,disable_hashcheck=true,shell_type=unix:/path/todir/" `
-	G: `
+.\rclone.exe mount ^
+	":sftp,ssh=ssh lab-server,disable_hashcheck=true,shell_type=unix:/path/todir/" ^
+	G: ^
 	--vfs-cache-mode full
 ```
 
