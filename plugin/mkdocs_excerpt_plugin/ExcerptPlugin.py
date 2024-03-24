@@ -206,6 +206,27 @@ class ExcerptPlugin(BasePlugin):
                 excerpt.content.split(separator)[0] # type: ignore
             )
 
+            # Find all image links and fix them
+            expr = re.compile(
+                r"<img[^>]+src.*?\\?>",
+                re.IGNORECASE | re.MULTILINE
+            )
+
+            def replace_img_src(match):
+                value = match.group()
+                el = fragment_fromstring(value.encode("utf-8"))
+                if el.tag == "img":
+                    file_url = excerpt.file.url
+                    src_url = el.get("src")
+
+                    if src_url[0:1] in ("/", "."):
+                        src_url = file_url + src_url
+                        el.set("src", src_url)
+
+                return tostring(el, encoding = "unicode")
+            
+            content = expr.sub(replace_img_src, content)
+
             article["content"] = content
             del article["path"]
         
