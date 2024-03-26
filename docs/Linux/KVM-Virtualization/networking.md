@@ -5,7 +5,7 @@ tags:
     - VM
     - Network
 create_time: 2024-03-25
-update_time: 2024-03-25
+update_time: 2024-03-26
 ---
 
 
@@ -26,8 +26,8 @@ update_time: 2024-03-25
     * Guest 与 Host：无法相互访问
 * 共享网卡：相当于使用交换机连接 guest 和 host 的一个网口
     * Guest -> Internet：需要 guest 自行通过宽带拨号/DHCP等手段获取 IP
-* 路由模式
 * 网卡直通
+* 路由模式
 
 
 
@@ -232,19 +232,57 @@ sudo virsh net-start net_name
 * 如果 Linux 系统既有 IPv4 地址又有公网 IPv6 地址，系统优先使用 IPv6 进行通讯
 * 但因为分配给 guests 的是 `fc00::/8` 的 UCL 地址，系统会优先使用 IPv4 进行通讯
 
-作者还没能解决该问题，我将一些可能对理解地址选择有帮助的连接列举如下，若读者有解决方法，可在评论区留言：
 
-* [libvirt: Network XML format - IPv6 NAT](https://libvirt.org/formatnetwork.html#ipv6-nat-based-network)
 
-* [RFC3484  Default Address Selection for IPv6](https://www.rfcreader.com/#rfc3484)
+操作系统为什么这么做？
 
-* ULA 的混乱历史：[Unique local address - Wikipedia](https://en.wikipedia.org/wiki/Unique_local_address)
+* [RFC3484  Default Address Selection for IPv6](https://www.rfcreader.com/#rfc3484) 定义了系统具有多个 IP 地址时如何选择的规则，默认偏好使用 IPv6 地址
 
-* 可能的解决方法：修改 `/etc/gai.conf`，但我瞎改了一波没啥效果
+* 几乎所有操作系统都遵循 RFC3484 的规则
 
-* 如何得知系统的偏好：
+* 因为 ULA 的[混乱历史](https://en.wikipedia.org/wiki/Unique_local_address)，ULA 地址很长一段时间内不可能被路由到。按照 RFC3484 的规则，系统将尝试使用 ULA 地址发起请求，但因为 ULA 地址不被路由，这样的请求多半会因超时失败，然后系统再尝试使用更低优先级的 IPv4 地址发起连接
 
-    使用指令：
+* 这样“超时-重试”的过程引入大量网络延迟，所以大部分操作系统将 ULA 地址优先级降低到 IPv4 地址以下
+
+    
+
+
+
+为解决该问题，需要编辑 `/etc/gai.conf` 文件：
+
+* `sudo vim /etc/gai.conf`
+
+* 找到
+
+    ``` bash
+    #label ::1/128       0
+    #label ::/0          1
+    #label 2002::/16     2
+    #label ::/96         3
+    #label ::ffff:0:0/96 4
+    #label fec0::/10     5
+    #label fc00::/7      6
+    #label 2001:0::/32   7
+    ```
+
+* 取消注释，并添加一行，使上述内容成为
+
+    ``` bash
+    label ::1/128       0
+    label ::/0          1
+    label 2002::/16     2
+    label ::/96         3
+    label ::ffff:0:0/96 4
+    label fec0::/10     5
+    label fc00::/7      6
+    label 2001:0::/32   7
+    
+    label fd00::/8 1
+    ```
+
+* 保存，退出，验证系统偏好：
+
+    在命令行运行
 
     ``` bash
     getent ahosts ident.me
@@ -273,6 +311,56 @@ sudo virsh net-start net_name
     2a01:4f8:c0c:bd0a::1 DGRAM
     2a01:4f8:c0c:bd0a::1 RAW
     ```
+
+
+
+上述修改背后的原理：
+
+* RFC3484 Section 6 规定排序规则，与本例相关的是：
+
+    * Rule 5: Prefer matching label
+    * Rule 6: Prefer higher precedence
+    * 且 Rule 5 优先级比 Rule 6 高
+
+* 考虑默认配置：
+
+    ```bash
+    label ::1/128       0
+    label ::/0          1
+    label 2002::/16     2
+    label ::/96         3
+    label ::ffff:0:0/96 4
+    label fec0::/10     5
+    label fc00::/7      6
+    label 2001:0::/32   7
+    
+    precedence  ::1/128       50
+    precedence  ::/0          40
+    precedence  2002::/16     30
+    precedence ::/96          20
+    precedence ::ffff:0:0/96  10
+    ```
+
+    `ident.me` 的地址
+
+    * IPv6 为 `2a01:4f8:c0c:bd0a::1` 匹配到 label 1
+    * IPv4 为 `49.12.234.183` 匹配到 label 4
+
+    本机的地址：
+
+    * IPv6 为 `fd12:8848:a2a2:1::74` 匹配到 label 6 
+        (注意是最长前缀匹配，不是按照列表先后顺序匹配)
+    * IPv4 为 `192.168.122.154` 匹配到 label 4
+
+    按照 Rule 5，`ident.me` 和本机 `192.168.122.154` 的 label 相同，被优选选择，所以使用 IPv4 地址建立连接。
+
+* 添加 `label fd00::/8 1` 一行后，`fd12:8848:a2a2:1::74` 被匹配到 label 1。
+    * IPv4 和 IPv6 的本机 label 和目标 label 相同，Rule 5 不能排出顺序
+    * 考虑 Rule 6，IPv6 优先级为 40、IPv4 优先级为 10，所以选择 IPv6 建立连接
+
+
+
+
 
   
 
