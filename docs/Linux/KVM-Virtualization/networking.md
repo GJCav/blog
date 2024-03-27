@@ -5,7 +5,7 @@ tags:
     - VM
     - Network
 create_time: 2024-03-25
-update_time: 2024-03-26
+update_time: 2024-03-27
 ---
 
 
@@ -366,7 +366,7 @@ sudo virsh net-start net_name
 
 ### 配置 IPv6 DNAT
 
-与 IPv4 不同，IPv6 暂时没有现成的 DNAT 自动配置脚本。管理员可通过如下指令配置 DNAT：
+~~与 IPv4 不同，IPv6 暂时没有现成的 DNAT 自动配置脚本。~~ 管理员可通过如下指令配置 DNAT：
 
 ``` bash
 GUEST_IP=xxxxxxxx
@@ -379,6 +379,10 @@ sudo ip6tables -t nat -I PREROUTING -p tcp --dport $HOST_PORT -j DNAT --to "[$GU
 ```
 
 
+
+如果需要自动配置，可以考虑使用该仓库：[GJCav/libvirt-hook-qemu](https://github.com/GJCav/libvirt-hook-qemu)
+
+该仓库从 [saschpe/libvirt-hook-qemu](https://github.com/saschpe/libvirt-hook-qemu) fork 出，添加了对 IPv6 的支持，在作者的电脑上工作良好，已经向原作者提出 PR，正在等待审核
 
 
 
