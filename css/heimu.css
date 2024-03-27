@@ -1,0 +1,12 @@
+.heimu {
+    background-color: black;
+    color: black;
+    transition: 
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.heimu:hover {
+    background-color: inherit;
+    color: inherit;
+}
