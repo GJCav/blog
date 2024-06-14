@@ -1,0 +1,138 @@
+==== Created At 20240614 ====
+Target: mount SqliteDB file as a filesystem
+
+Why: Browse, read and write Sqlite database using "ls",
+"find", "echo", "cat" and all other command tools. It 
+is really cool. Besides, Sqlite recommends to save 
+program configuration with sqlite but manipulating sqlite 
+API is not convenient. So how about use FUSE to bridge 
+this gap?
+
+
+Some existing tools:
+* https://github.com/guardianproject/libsqlfs
+  A filesystem backed by Sqlite. So it can not be used to 
+  browse an existing Sqlite database.
+* https://github.com/superfly/litefs
+  A powerfull platform to sync Sqlite database across 
+  cluster nodes by capturing every action. Relatively 
+  complicated so I do not prefer to try it.
+* https://sqlite.org/sqlar.html
+  An alternative to `tar` or `zip`. Use Sqlite file to 
+  archive other files. 
+* https://github.com/lostatc/sqlarfs-rs
+  Sqlite Archive rewrote in rust. The author declares to
+  support FUSE filesystem but now it is useless.
+
+
+==== Update 2024 ====
+
+I wish to achieve these features on top of SQLite.
+
+**SQLite viewer as a filesystem**, with support of customized 
+view configuration in yaml. Considering this simple table:
+
+Table of `Student`:
+
+| Name   | Class | College | SID  | Phone  | ... |
+| Alice  | A     | EE      | 1234 | xx-xxx | ... |
+| Bob    | A     | EE      | 2234 | xx-xxx | ... |
+| Carol  | B     | CE      | 4312 | xx-xxx | ... |
+
+Then the table forms this FS: 
+`/student/{college}/{class}/{name}-{sid}.info`, and its content 
+(Alice-1234.info as an example):
+
+```
+Name    : Alice
+Class   : A
+College : EE
+SID     : 1234
+Phone   : xx-xxx
+```
+
+By editing a yaml configuration file, the hierachy can be 
+easliy changed to a flat level like: `/student/{name}-{sid}.info` 
+or other structure.
+
+
+**Table row as a file**, so one can modify a row like this:
+
+``` bash
+echo "Phone=+86-12345678" > Alice-1234.info
+```
+
+**Transaction support**, thus the integrity and consistency 
+is gaurantee by the underlying SQLite. 
+
+This is an advanced topic indeed. My goal is to provide file
+transaction as intuitive and simple as possible. For example,
+there may be a speical file at `/student/transaction`. Assume 
+a process proc_A:
+
+* proc_A opens the transaction file in write mode 
+    -> begins a transaction
+* proc_A `echo "commit" > /student/transaction` 
+    -> commit the transaction
+* proc_A close the transaction file without writing "commit"
+    -> abort the transaction
+* proc_A `echo "savepoint" > /student/transaction`
+* proc_A `echo "rollback" > /student/transaction`
+* proc_A re-opens the transaction file -> permission denied
+
+And any process that reads the transaction gets the status 
+about the transaction. Different processes may get different 
+part of information according to its user and permission.
+
+It enables this programing model:
+
+``` Python
+with open("/student/transaction", "w") as transaction:
+	# a lot of read and write
+	
+	transaction.write("commit")
+```
+
+if the process abort due to an error, all changes are discarded.
+
+About the isolation level: single-writer, read-committed
+
+* Only 1 transaction at the same time
+* Read inside the transaction gets the latest content
+* Read outside the transaction gets the view before the transaction
+  starts.
+* Write outside the transaction, if there is a transaction, gets 
+  an error like "permission denied" or "system busy".
+
+The isolation level highly depends on the underlying DBMS. In 
+case of SQLite, it is single-writer and read-committed.
+
+Related Solutions:
+
+* Transactional NTFS (TxF): 
+  TxF was introduced in Windows Vista but markded as deprecated.
+  [Offical document](https://learn.microsoft.com/en-us/windows/win32/
+  fileio/deprecation-of-txf) says "...there has been extremely limited 
+  developer interest in this API platform...due to its complexity and 
+  various nuances...As a result, Microsoft is  considering deprecating 
+  TxF APIs in a future version of Windows..."
+  
+  TxF provides APIs ending with "Transacted", such as  
+  `CreateFileTransacted`. 
+  
+  So we differ from TxF from our simplicity and intuition.
+
+* ZFS:
+  ZFS supports transactional semantics to some extent, primarily through 
+  its snapshot and rollback features. While it does not provide explicit 
+  transaction APIs for application use, its design ensures that file 
+  system changes are consistent and atomic through Copy-On-Write (COW) 
+  and snapshot mechanisms.
+  
+  ZFS is a powerfull filesystem, show its power with large number of 
+  physical storage media like HDD and SSD in data center scenario but 
+  requires relatively large resources. Proxmox recommend at least 8GB 
+  ECC RAM to prevent data corruption.
+  
+  We differ from ZFS because our solution is lighter, more flexiable and 
+  versatile considering that SQLite is the most widely deployed DBMS.
